@@ -1,46 +1,41 @@
 import functools
 import os, json
 
-def keyboardInterruptHandler(func):
-    """
-    This decorator wrapper handle the keyboardInerrupt for the whole script runtime
-    """
+exit_keywords = ["q", "quit", "exit", "bye"]
+# def keyboardInterruptHandler(func):
+#     """
+#     This decorator wrapper handle the keyboardInerrupt for the whole script runtime
+#     """
 
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except KeyboardInterrupt:
-            print("\nexecution interrupted by user. Exiting the game...")
-            return None
-    return wrapper
+#     @functools.wraps(func)
+#     def wrapper(*args, **kwargs):
+#         try:
+#             return func(*args, **kwargs)
+#         except KeyboardInterrupt:
+#             print("\nexecution interrupted by user. Exiting the game...")
+#             return None
+#     return wrapper
 
 # def handle_keyboard_interrupt(signum, frame):
 #     print("\nExecution interrupted by user. Exiting the game gracefully.")
 #     sys.exit(1)
 
 def input_with_interruption(prompt=""):
-    """placeholder"""
+    """a utility function that help with exiting the game triggered by specific inputs from the user """
     user_input = spaces_trimmer(input(prompt).lower())
-    try:
-        if user_input in ["q", "quit", "exit", "bye"]:
-            print("Exiting the game, thanks for playing AliAS_RPS")
-            raise SystemExit
-        return user_input
-    except KeyboardInterrupt:
+    if user_input in exit_keywords:
         print("Exiting the game, thanks for playing AliAS_RPS")
-        raise
-    finally:
-        print("....")
+        raise SystemExit
+    return user_input
 
 def spaces_trimmer(string=""):
-    """placeholder"""
+    """clean the string from leading and trailing spaces"""
     return string.strip()
 
 def data_validator(user_input, key, target_json):
     """placeholder"""
     data_set = get_json_data_set(key, target_json)
-    print(f"data set: {data_set}")
+    # print(f"data set: {data_set}")
     if isinstance(data_set, list):
         if user_input in data_set:
             return True
