@@ -1,0 +1,10 @@
+{
+    "validation_data": {
+        "game_mode_val_data": [
+            "1", "2", "q", "quit", "exit", "bye"
+        ],
+        "plays_data": [
+            ["rock", "paper", "scissor"]
+        ]
+    }
+}
