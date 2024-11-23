@@ -4,7 +4,7 @@
             "1", "2", "q", "quit", "exit", "bye"
         ],
         "plays_data": [
-            ["rock", "paper", "scissor"]
+            "rock", "paper", "scissor"
         ]
     }
 }

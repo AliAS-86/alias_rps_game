@@ -1,5 +1,5 @@
 import functools
-import sys, signal
+import os, json
 
 def keyboardInterruptHandler(func):
     """
@@ -37,14 +37,29 @@ def spaces_trimmer(string=""):
     """placeholder"""
     return string.strip()
 
-def input_validator(user_input, validation_data):
+def data_validator(user_input, key, target_json):
     """placeholder"""
-    # valid_inputs = ["1", "2", "q", "quit", "exit", "bye"]
-    if isinstance(validation_data, list):
-        if user_input in validation_data:
+    data_set = get_json_data_set(key, target_json)
+    print(f"data set: {data_set}")
+    if isinstance(data_set, list):
+        if user_input in data_set:
             return True
         return False
     # if isinstance(validation_data, int):
     #     if user_input is int:
     #         return True
     #     return False
+
+def get_json_data_set(key, target_json):
+    # construct file path for the target JSON file
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_file_path = os.path.join(current_dir, target_json)
+
+    # Load the JSON file
+    with open(json_file_path, "r") as json_file:
+        data_set_collection = json.load(json_file)
+
+        if key in data_set_collection["validation_data"]:
+            return data_set_collection["validation_data"][key]
+        else:
+            raise KeyError(f"Key {key} not found in {target_json}")

@@ -15,15 +15,15 @@ class RpcGame:
     def setup_game(self):
         """Function to get game and players infor"""
         self.game_mode = self.get_game_mode()
-        self.get_player_name(1, mode="1")
-        self.get_player_name(2, mode=self.game_mode)
-        self.get_num_of_games()
-        self.get_num_of_rounds_per_game()
+        self.player_1_name = self.get_player_name(1, mode="1")
+        self.player_2_name = self.get_player_name(2, mode=self.game_mode)
+        self.num_of_games = self.get_num_of_games()
+        self.num_of_rounds_per_game = self.get_num_of_rounds_per_game()
         self.game_announcement()
         self.game_engine(self.game_mode, self.player_1_name, self.player_2_name, self.num_of_games, self.num_of_rounds_per_game)
 
-    @staticmethod
-    def get_player_name(player, mode=None):
+
+    def get_player_name(self, player, mode=None):
         """Docustring placeholder for class"""
         player_name = ""
         # print(f"game mode from get_player_name: {mode}")
@@ -34,17 +34,8 @@ class RpcGame:
             player_name = random.choice(computer_names_list)
         
         return player_name
-
-    # @staticmethod
-    # def check_for_valid_input(user_input):
-    #     """placeholder"""
-    #     valid_inputs = ["1", "2", "q", "quit", "exit", "bye"]
-    #     if user_input in valid_inputs:
-    #         return True
-    #     return False
-
-    @staticmethod   
-    def get_game_mode():
+  
+    def get_game_mode(self):
         """Docustring placeholder for class"""
         validation = ""
         user_input = utls.input_with_interruption("""
@@ -55,41 +46,40 @@ Is this game going to be:
 enter 1 or 2 or q
 """)
         trimmed_user_input = utls.spaces_trimmer(user_input)
-        validation = utls.input_validator(trimmed_user_input, validation_data=["1", "2", "q", "quit", "exit", "bye"])
+        validation = utls.data_validator(trimmed_user_input, key="game_mode_val_data", target_json="validation_data.json")
 
         if validation:
             # print(f"user_input from get_game_mode: {user_input}")
             return user_input
         print("Invalid input, please try again")
         # print(f"user_input from get_game_mode when validation failed: {user_input}")
-        return RpcGame.get_game_mode()
+        return RpcGame.get_game_mode(self)
     
-    @staticmethod
-    def get_num_of_games():
-        """Docustring placeholder for class"""
+    def get_num_of_games(self):
+        """a function that asks the user how many games they want to play"""
         try:
             user_input = int(utls.input_with_interruption("Hello players, How many games are you planning to play? "))
             if user_input <= 0:
                 print("Invalid input, please enter a positive number that is 1 or higher or q to exit")
                 return RpcGame.get_num_of_games()
+            print(f"user_input: {user_input}, input type: {type(user_input)}")
             return user_input
         except ValueError:
             print("Invalid input, please try again by entering a number")
-            return RpcGame.get_num_of_games()
+            return RpcGame.get_num_of_games(self)
     
-    @staticmethod
-    def get_num_of_rounds_per_game():
-        """Docustring placeholder for class"""
+    def get_num_of_rounds_per_game(self):
+        """a function that asks the user how many rounds per game they want to play"""
         try:
             user_input = int(utls.input_with_interruption("Hello players, How many rounds per game are you planning to play? "))
             # validation = utls.input_validator(user_input, int)
             if user_input <= 0:
                 print("Invalid input, please enter a positive number that is 1 or higher or q to exit")
-                return RpcGame.get_num_of_rounds_per_game()
+                return RpcGame.get_num_of_rounds_per_game(self)
             return user_input
         except ValueError:    
             print("Invalid input, please try again by entering a number")
-            return RpcGame.get_num_of_rounds_per_game()
+            return RpcGame.get_num_of_rounds_per_game(self)
     
     def game_announcement(self, msg=None):
         """Docustring placeholder for class"""
@@ -100,6 +90,7 @@ enter 1 or 2 or q
     
     def game_engine(self, mode, player_1, player_2, games, rounds):
         """Docustring placeholder for class"""
+        print(f"games data type: {type(games)}")
         game_counter = 1
         player_1_total_score = 0
         player_2_total_score = 0
@@ -184,7 +175,7 @@ There is no winner, it's a Tie
     def get_play(player):
         """Docustring placeholder for class"""
         play = utls.input_with_interruption(f"{player}, please enter your play (rock, paper, scissor): ")
-        validation = utls.input_validator(play, validation_data=["rock", "paper", "scissor"])
+        validation = utls.data_validator(play, key="plays_data", target_json="validation_data.json")
 
         if validation:
             return utls.spaces_trimmer(play)
