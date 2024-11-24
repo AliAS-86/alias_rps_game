@@ -148,7 +148,7 @@ class RpcGame:
         return user_input
             
 
-    def get_auto_play(self, player):
+    def get_auto_play(self):
         """Docustring placeholder for class"""
         play = ["rock", "paper", "scissor"]
         return random.choice(play)
@@ -167,7 +167,7 @@ class RpcGame:
         if mode == "1":
             player_2_play = self.get_play(player_2)
         elif mode == "2":
-            player_2_play = self.get_auto_play(player_2)
+            player_2_play = self.get_auto_play()
         
         return player_1_play, player_2_play
         

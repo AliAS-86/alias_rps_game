@@ -23,7 +23,7 @@ class JsonHandler:
         """Instance method to load the JSON file into memory"""
         json_file_path = self.file_locator()
         try:
-            with open(json_file_path, "r") as file:
+            with open(json_file_path, "r", encoding="utf-8") as file:
                 self.data = json.load(file)
         except FileNotFoundError:
             print(f"Specified JSON file {json_file_path} not found. Using default")
